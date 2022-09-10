@@ -5,8 +5,15 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElImage: typeof import('element-plus/es')['ElImage']
+    ElMain: typeof import('element-plus/es')['ElMain']
+    Indexe: typeof import('./components/Sidebar/indexe.vue')['default']
     Main: typeof import('./components/Main/index.vue')['default']
     Player: typeof import('./components/Player/index.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     Top: typeof import('./components/Top/index.vue')['default']
   }
 }

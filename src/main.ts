@@ -15,10 +15,18 @@ import 'uno.css'
 // If you want to use ElMessage, import it.
 import 'element-plus/theme-chalk/src/message.scss'
 
-import VueVideoPlayer from '@videojs-player/vue'
-import 'video.js/dist/video-js.css'
+import '../src/assets/css/global.css'
+import '../src/assets/less/reset.less'
+import '../src/assets/fonts/fonts.css'
+
+import router from './router/index'
+import { createPinia } from 'pinia'
+
+// 1.创建实例
+const pinia = createPinia()
 
 const app = createApp(App)
 app.use(ElementPlus)
-app.use(VueVideoPlayer)
+app.use(router)
+app.use(pinia)
 app.mount('#app')
