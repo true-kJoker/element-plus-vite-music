@@ -22,10 +22,15 @@ import '../src/assets/fonts/fonts.css'
 import router from './router/index'
 import { createPinia } from 'pinia'
 
+import * as getApi from '~/api/index'
+
 // 1.创建实例
 const pinia = createPinia()
 
 const app = createApp(App)
+
+app.config.globalProperties['$http'] = getApi;
+
 app.use(ElementPlus)
 app.use(router)
 app.use(pinia)

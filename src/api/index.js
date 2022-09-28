@@ -12,7 +12,12 @@ const serachHotDetail = () => { return api.get('/search/hot/detail', {}) }
 const serachSuggest = ({ keywords = '' }) => { return api.get(`/search/suggest?keywords=${keywords}`, {}) }
 const serachMatch = ({ keywords = '' }) => { return api.get(`/search/multimatch?keywords=${keywords}`, {}) }
 // 登录
-const login = ({ phone = '', pwd = '', realIP = '43.241.243.255' }) => { return api.post(`/login/cellphone`, {phone, password :pwd, realIP}) }
+const login = ({ phone = '', pwd = '', realIP = '43.241.243.255' }) => { return api.post(`/login/cellphone`, { phone, password: pwd, realIP }) }
+// 二维码登录
+const loginKey = () => { return api.get(`/login/qr/key?timerstamp=${Date.now()}`, {}) }
+const loginCreat = ({ key = "" }) => { return api.get(`/login/qr/create?key=${key}&qrimg=true&timerstamp=${Date.now()}`, {}) }
+const loginCheck = ({ key = "" }) => { return api.get(`/login/qr/check?key=${key}&timerstamp=${Date.now()}`, {}) }
+const loginStatus = (cookie = '') => { return api.post(`/login/status?timerstamp=${Date.now()}`, { cookie }) }
 // 退出登录
 const logout = () => { return api.get('/logout', {}) }
 // 获取用户详情
@@ -156,7 +161,7 @@ const topArtists = ({ limit = 30, offset = 0 }) => { return api.get(`/top/artist
 // 最新MV
 const getNewMv = ({ limit = 30, area = '' }) => { return api.get(`/mv/first?limit=${limit}&area=${area}`, {}) }
 // 热门电台
-const getHotDj = ({ limit = 30, offset = 0 }) => { return api.get(`/dj/hot?limit=${limit}&offset=${offset}`, {}) } 
+const getHotDj = ({ limit = 30, offset = 0 }) => { return api.get(`/dj/hot?limit=${limit}&offset=${offset}`, {}) }
 
 export {
     getBanner,
@@ -167,6 +172,10 @@ export {
     serachMatch,
     cloudsearch,
     login,
+    loginKey,
+    loginCreat,
+    loginCheck,
+    loginStatus,
     logout,
     getUserInfo,
     checkSong,
