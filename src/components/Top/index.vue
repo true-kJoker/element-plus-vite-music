@@ -13,12 +13,29 @@
                 <span class="set"><i class="iconfont icon-set"></i></span>
                 <span class="quit" @click="logout"><i class="iconfont icon-quit"></i></span>
             </div>
-            <span class="login-btn" @click="loginDialog" v-else>登录</span>
+            <span class="login-btn" @click="loginDialogOpen" v-else>登录</span>
         </div>
     </header>
 
-    <el-dialog v-model="dialogVisible" title="请扫描二维码进行登录！" width="18%" draggable center>
-        <el-image style="width: 300px; height: 300px" :src="imgUrl" />
+    <el-dialog v-model="dialogVisible" title="请进行登录！" width="18%" draggable center>
+        <el-radio-group @change="radioChange" v-model="radio">
+            <el-radio-button label="手机号登录" />
+            <el-radio-button label="二维码登录" />
+        </el-radio-group>
+        <el-form v-if="radio=='手机号登录'" label-position="left" label-width="100px" :model="formLabelAlign"
+            style="max-width: 460px;margin-top: 15px;">
+            <el-form-item label="电话号码">
+                <el-input v-model="formLabelAlign.phone" />
+            </el-form-item>
+            <el-form-item label="验证码">
+                <el-input v-model="formLabelAlign.captcha" />
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="loginVerify" type="primary">登录</el-button>
+                <el-button @click="loginSent">获取验证码</el-button>
+            </el-form-item>
+        </el-form>
+        <el-image v-if="radio=='二维码登录'" style="width: 300px; height: 300px" :src="imgUrl" />
     </el-dialog>
 </template>
 
@@ -32,34 +49,49 @@ const { proxy } = getCurrentInstance()
 const dialogVisible = ref(false)
 const isLogin = ref(false)
 let imgUrl = ref("")
+const radio = ref('手机号登录')
+const formLabelAlign = reactive({
+    phone: '',
+    captcha: ''
+})
 const userInfo = reactive({
     avatarUrl: "",
     nickname: ""
 })
 
+const loginDialogOpen = () => {
+    dialogVisible.value = true
+}
+
+//选择登录方式监听事件
+const radioChange = (value) => {
+    if (value == '二维码登录') {
+        loginDialog()
+    }
+}
+
+//二维码登录
 const loginCheck = async ({ key: key }) => {
     const res = await proxy.$http.loginCheck({ key: key })
     return res.data
 }
-
 const loginStatus = async (cookie) => {
     const res = await proxy.$http.loginStatus(cookie)
     return res.data
 }
-
 const loginDialog = async () => {
-    dialogVisible.value = true
-
     const cookie = localStorage.getItem('cookie')
     loginStatus(cookie)
     const res = await proxy.$http.loginKey()
     const key = res.data.data.unikey
     const res2 = await proxy.$http.loginCreat({ key: key })
     imgUrl.value = res2.data.data.qrimg
-
     const timer = setInterval(async () => {
+        if (radio.value == "手机号登录") {
+            clearInterval(timer)
+            return
+        }
         const statusRes = await loginCheck({ key: key })
-        console.log(statusRes);
         if (statusRes.code === 800) {
             ElMessage(
                 {
@@ -87,8 +119,49 @@ const loginDialog = async () => {
     }, 3000)
 }
 
-const logout = () => {
-    console.log(logout);
+//手机号验证码登录
+const loginSent = async () => {
+    const res = await proxy.$http.loginSent({ phone: formLabelAlign.phone })
+    return res.data
+}
+const loginVerify = async () => {
+    const res = await proxy.$http.loginVerify({ phone: formLabelAlign.phone, captcha: formLabelAlign.captcha })
+    if (res.data.data == true) {
+        const statusRes = await proxy.$http.login({ phone: formLabelAlign.phone, captcha: formLabelAlign.captcha })
+        if (statusRes.data.code == 200) {
+            ElMessage(
+                {
+                    message: '授权登录成功',
+                    type: 'success'
+                })
+            localStorage.setItem('cookie', statusRes.data.cookie)
+            dialogVisible.value = false
+            isLogin.value = true
+            userInfo.avatarUrl = statusRes.data.profile.avatarUrl
+            userInfo.nickname = statusRes.data.profile.nickname
+        }
+    } else {
+        ElMessage(
+            {
+                message: '验证码不正确，请重新输入!',
+                type: 'warning'
+            })
+    }
+}
+
+//退出登录
+const logout = async () => {
+    const res = await proxy.$http.logout()
+    if (res.data.code == 200) {
+        ElMessage(
+            {
+                message: '退出登录成功',
+                type: 'success'
+            })
+        isLogin.value = false
+        localStorage.removeItem('cookie')
+    }
+
 }
 
 

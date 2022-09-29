@@ -22,7 +22,7 @@ import '../src/assets/fonts/fonts.css'
 import router from './router/index'
 import { createPinia } from 'pinia'
 
-import * as getApi from '~/api/index'
+import * as getApi from '~/api/http'
 
 // 1.创建实例
 const pinia = createPinia()
