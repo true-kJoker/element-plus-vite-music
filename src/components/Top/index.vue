@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance } from 'vue'
+import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
 import Search from './search.vue'
 import { ElMessage } from 'element-plus'
 
@@ -69,6 +69,23 @@ const radioChange = (value) => {
         loginDialog()
     }
 }
+
+//获取登录状态
+const checkLogin = async (cookie) => {
+    const res = await proxy.$http.loginStatus(cookie)
+    console.log(res.data);
+    if (res.data.data.code == 200) {
+        console.log("已经登录");
+        dialogVisible.value = false
+        isLogin.value = true
+        userInfo.avatarUrl = res.data.data.profile.avatarUrl
+        userInfo.nickname = res.data.data.profile.nickname
+    }
+}
+onMounted(() => {
+    let cookie = localStorage.getItem('cookie')
+    checkLogin(cookie)
+})
 
 //二维码登录
 const loginCheck = async ({ key: key }) => {
