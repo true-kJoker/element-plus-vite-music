@@ -7,8 +7,7 @@
             <Top />
             <Main />
         </el-main>
-        <Login v-show="loginDialogVisible" />
-        <!-- <Player /> -->
+        <Player />
     </el-container>
 </template>
 
