@@ -44,6 +44,14 @@ export async function useLoginStatus() {
     }>("login/status")
 }
 
+export async function useLogOut() {
+    return await http.get<{
+        data: {
+            code: number,
+        },
+    }>("/logout")
+}
+
 // const loginKey = () => { return api.get(`/login/qr/key?timerstamp=${Date.now()}`, {}) }
 // const loginCreat = ({ key = "" }) => { return api.get(`/login/qr/create?key=${key}&qrimg=true&timerstamp=${Date.now()}`, {}) }
 // const loginCheck = ({ key = "" }) => { return api.get(`/login/qr/check?key=${key}&timerstamp=${Date.now()}`, {}) }

@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
-import { useLogin, useLoginStatus, useLoginSent, useLoginVerify } from "~/api/api";
+import { useLogin, useLoginStatus, useLoginSent, useLoginVerify, useLogOut } from "~/api/api";
 import Search from './search.vue'
 import { ElMessage } from 'element-plus'
 
@@ -76,11 +76,15 @@ const checkLogin = async (cookie) => {
     const res = await useLoginStatus(cookie)
     console.log(res.data);
     if (res.data.code == 200) {
-        console.log("已经登录");
-        dialogVisible.value = false
-        isLogin.value = true
-        userInfo.avatarUrl = res.data.profile.avatarUrl
-        userInfo.nickname = res.data.profile.nickname
+        if (res.data.profile == null) {
+            console.log("未登录");
+        } else {
+            console.log("已经登录");
+            dialogVisible.value = false
+            isLogin.value = true
+            userInfo.avatarUrl = res.data.profile.avatarUrl
+            userInfo.nickname = res.data.profile.nickname
+        }
     }
 }
 onMounted(() => {
@@ -144,19 +148,19 @@ const loginSent = async () => {
 }
 const loginVerify = async () => {
     const res = await useLoginVerify(formLabelAlign.phone, formLabelAlign.captcha)
-    if (res.data.data == true) {
-        const statusRes = await useLogin(formLabelAlign.phone, formLabelAlign.captcha)
-        if (statusRes.data.code == 200) {
+    if (res.data == true) {
+        const statusRes = await useLogin(formLabelAlign.phone, "", formLabelAlign.captcha)
+        if (statusRes.code == 200) {
             ElMessage(
                 {
                     message: '授权登录成功',
                     type: 'success'
                 })
-            localStorage.setItem('cookie', statusRes.data.cookie)
+            localStorage.setItem('cookie', statusRes.cookie)
             dialogVisible.value = false
             isLogin.value = true
-            userInfo.avatarUrl = statusRes.data.profile.avatarUrl
-            userInfo.nickname = statusRes.data.profile.nickname
+            userInfo.avatarUrl = statusRes.profile.avatarUrl
+            userInfo.nickname = statusRes.profile.nickname
         }
     } else {
         ElMessage(
@@ -169,8 +173,8 @@ const loginVerify = async () => {
 
 //退出登录
 const logout = async () => {
-    const res = await proxy.$http.logout()
-    if (res.data.code == 200) {
+    const res = await useLogOut()
+    if (res.code == 200) {
         ElMessage(
             {
                 message: '退出登录成功',
