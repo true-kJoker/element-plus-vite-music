@@ -72,8 +72,8 @@ const radioChange = (value) => {
 }
 
 //获取登录状态
-const checkLogin = async (cookie) => {
-    const res = await useLoginStatus(cookie)
+const checkLogin = async () => {
+    const res = await useLoginStatus()
     console.log(res.data);
     if (res.data.code == 200) {
         if (res.data.profile == null) {
@@ -89,7 +89,11 @@ const checkLogin = async (cookie) => {
 }
 onMounted(() => {
     let cookie = localStorage.getItem('cookie')
-    checkLogin(cookie)
+    if (cookie) {
+        checkLogin()
+    } else {
+        return true
+    }
 })
 
 //二维码登录
