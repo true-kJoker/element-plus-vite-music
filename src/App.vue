@@ -4,7 +4,7 @@
             <Sidebar />
         </el-aside>
         <el-main>
-            <Top />
+            <Header />
             <Main />
         </el-main>
         <Player />

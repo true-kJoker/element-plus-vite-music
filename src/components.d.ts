@@ -16,12 +16,13 @@ declare module '@vue/runtime-core' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
+    Header: typeof import('./components/Header/index.vue')['default']
     Indexe: typeof import('./components/Sidebar/indexe.vue')['default']
     Main: typeof import('./components/Main/index.vue')['default']
     Player: typeof import('./components/Player/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Search: typeof import('./components/Top/search.vue')['default']
+    Search: typeof import('./components/Header/search.vue')['default']
     Top: typeof import('./components/Top/index.vue')['default']
   }
 }
