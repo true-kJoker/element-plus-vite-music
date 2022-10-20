@@ -1,12 +1,10 @@
 <template>
-    index
+  <Bannner />
 </template>
 
 <script setup>
-import {} from 'vue'
-
+import {} from "vue";
+import Bannner from "./Banner.vue";
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
