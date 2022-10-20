@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
-import { useLogin, useLoginStatus, useLoginSent, useLoginVerify, useLogOut } from "~/api/api";
+import { useLogin, useLoginStatus, useLoginSent, useLoginVerify, useLogOut,useLoginKey,useLoginCreat,useLoginCheck, } from "~/api/api";
 import Search from './search.vue'
 import { ElMessage } from 'element-plus'
 
@@ -97,27 +97,28 @@ onMounted(() => {
 })
 
 //二维码登录
-const loginCheck = async ({ key: key }) => {
-    const res = await proxy.$http.loginCheck({ key: key })
-    return res.data
+const loginCheck = async ( key) => {
+    const res = await useLoginCheck( key )
+    return res
 }
 const loginStatus = async (cookie) => {
-    const res = await proxy.$http.loginStatus(cookie)
-    return res.data
+    const res = await useLoginStatus(cookie)
+    return res
 }
 const loginDialog = async () => {
     const cookie = localStorage.getItem('cookie')
     loginStatus(cookie)
-    const res = await proxy.$http.loginKey()
-    const key = res.data.data.unikey
-    const res2 = await proxy.$http.loginCreat({ key: key })
-    imgUrl.value = res2.data.data.qrimg
+    const res = await useLoginKey()
+    const key = res.data.unikey
+    const res2 = await useLoginCreat( key )
+    imgUrl.value = res2.data.qrimg
     const timer = setInterval(async () => {
         if (radio.value == "手机号登录") {
             clearInterval(timer)
             return
         }
-        const statusRes = await loginCheck({ key: key })
+        const statusRes = await loginCheck( key )
+        console.log(statusRes);
         if (statusRes.code === 800) {
             ElMessage(
                 {
@@ -148,7 +149,7 @@ const loginDialog = async () => {
 //手机号验证码登录
 const loginSent = async () => {
     const res = await useLoginSent(formLabelAlign.phone)
-    return res.data
+    return res
 }
 const loginVerify = async () => {
     const res = await useLoginVerify(formLabelAlign.phone, formLabelAlign.captcha)

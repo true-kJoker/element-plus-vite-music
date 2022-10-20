@@ -35,13 +35,13 @@ export async function useLoginVerify(phone: string, captcha: string) {
     }>("/captcha/verify", { phone: phone, captcha: captcha })
 }
 
-export async function useLoginStatus() {
-    return await http.get<{
+export async function useLoginStatus(cookie:string) {
+    return await http.post<{
         data: {
             code: number,
             profile: UserProfile
         },
-    }>("login/status")
+    }>(`login/status?timerstamp=${Date.now()}`,{ data: {cookie}})
 }
 
 export async function useLogOut() {
@@ -50,6 +50,30 @@ export async function useLogOut() {
             code: number,
         },
     }>("/logout")
+}
+
+export async function useLoginKey() {
+    return await http.get<{
+        data: {
+            code: number,
+        },
+    }>("/login/qr/key",{timerstamp:Date.now()})
+}
+
+export async function useLoginCreat(key:string) {
+    return await http.get<{
+        data: {
+            code: number,
+        },
+    }>("/login/qr/create", { key: key,qrimg:'true',timerstamp:Date.now() })
+}
+
+export async function useLoginCheck(key:string) {
+    return await http.get<{
+        data: {
+            code: number,
+        },
+    }>("/login/qr/check", { key: key,timerstamp:Date.now() })
 }
 
 // const loginKey = () => { return api.get(`/login/qr/key?timerstamp=${Date.now()}`, {}) }
