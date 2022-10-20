@@ -23,6 +23,7 @@ import router from './router/index'
 import { createPinia } from 'pinia'
 
 import * as getApi from '~/api/api'
+import '~/assets/tailwind/index.css'
 
 // 1.创建实例
 const pinia = createPinia()

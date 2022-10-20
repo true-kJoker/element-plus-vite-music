@@ -1,41 +1,42 @@
 <template>
-  <div class="banner">
-    <el-skeleton :loading="loading" animated>
-      <template #template>
-        <el-skeleton-item class="skeleton-img" variant="image" />
-        <el-skeleton-item class="skeleton-img" variant="image" />
-        <el-skeleton-item class="skeleton-img" variant="image" />
-        <el-skeleton-item class="skeleton-img" variant="image" />
-      </template>
-      <template #default>
-        <swiper
-          :slidesPerView="3"
-          :spaceBetween="30"
-          :loop="true"
-          :centeredSlides="true"
-          :pagination="{
-            clickable: true,
-          }"
-          :autoplay="{
-            delay: 2500,
-            disableOnInteraction: false,
-          }"
-          :navigation="true"
-          :modules="modules"
-          class="banner_wrap"
-        >
-          <swiper-slide v-for="item of bannerList" :key="item.pic"
-            ><el-image :src="item.pic" :alt="item.typeTitle" class="banner_img">
-              <template #placeholder>
-                <div class="image-slot">
-                  <i class="iconfont icon-placeholder"></i>
-                </div>
-              </template> </el-image
-          ></swiper-slide>
-        </swiper>
-      </template>
-    </el-skeleton>
-  </div>
+  <el-skeleton :loading="loading" animated>
+    <template #template>
+      <el-skeleton-item class="skeleton-img" variant="image" />
+      <el-skeleton-item class="skeleton-img" variant="image" />
+      <el-skeleton-item class="skeleton-img" variant="image" />
+      <el-skeleton-item class="skeleton-img" variant="image" />
+    </template>
+    <template #default>
+      <swiper
+        :slidesPerView="4"
+        :spaceBetween="30"
+        :loop="true"
+        :centeredSlides="true"
+        :pagination="{
+          dynamicBullets: true,
+        }"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
+        :modules="modules"
+        class="banner_wrap"
+      >
+        <swiper-slide v-for="item of bannerList" :key="item.pic"
+          ><el-image
+            :src="item.pic"
+            :alt="item.typeTitle"
+            class="translate-x-55% rounded-md mt-10 mb-10"
+          >
+            <template #placeholder>
+              <div class="image-slot">
+                <i class="iconfont icon-placeholder"></i>
+              </div>
+            </template> </el-image
+        ></swiper-slide>
+      </swiper>
+    </template>
+  </el-skeleton>
 </template>
 
 <script setup>
@@ -60,4 +61,4 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="less" scoped></style>
+<style lang="sass" scoped></style>
