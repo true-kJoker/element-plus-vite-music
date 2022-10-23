@@ -327,3 +327,15 @@ export async function useTopPlaylistHighquality(params?: {
     lasttime: number;
   }>("top/playlist/highquality", params);
 }
+
+export async function useAlbumNew(params?: {
+  offset: number;
+  limit: number;
+  area: string;
+}) {
+  return await http.get<{
+    albums: PlayListDetail[];
+    code: number;
+    total: number;
+  }>("album/new", params);
+}

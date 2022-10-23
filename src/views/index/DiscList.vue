@@ -1,10 +1,60 @@
 <template>
-    <el-card shadow="always"> NewList </el-card>
-  </template>
-  
-  <script setup>
-  import { ref } from "vue";
-  </script>
-  
-  <style lang="less" scoped></style>
-  
+  <el-card shadow="always">
+    <el-row>
+      <h3
+        class="text-4xl font-semibold w-40 inline-block cursor-pointer"
+        @click="buttonClick('ALL')"
+      >
+        新碟上架
+      </h3>
+      <el-button
+        v-for="(item, i) in hotList"
+        :key="i"
+        class="text-lg mt-3 ml-10"
+        link
+        @click="buttonClick(item.type)"
+      >
+        {{ item.name }}
+      </el-button>
+    </el-row>
+    <el-row>
+      <div class="my-5" v-for="(item, i) in topAlbumList" :key="i">
+        <el-image
+          :src="item.blurPicUrl"
+          style="width: 220px; height: 220px"
+          class="mr-8 rounded-md"
+        >
+        </el-image>
+        <span class="block break-normal">{{ item.name }}</span>
+      </div>
+    </el-row>
+  </el-card>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useAlbumNew } from "~/api/api";
+
+const hotList = ref([
+  { id: 1, name: "华语", type: "ZH" },
+  { id: 2, name: "欧美", type: "EA" },
+  { id: 3, name: "韩国", type: "KR" },
+  { id: 4, name: "日本", type: "JP" },
+]);
+let topAlbumList = ref([]);
+onMounted(async () => {
+  const res = await useAlbumNew({
+    offset: 0,
+    limit: 6,
+    area: "All",
+  });
+  topAlbumList.value = res.albums;
+});
+
+const buttonClick = async (area) => {
+  const res = await useAlbumNew({ offset: 0, limit: 6, area: area });
+  topAlbumList.value = res.albums;
+};
+</script>
+
+<style lang="less" scoped></style>

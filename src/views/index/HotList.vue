@@ -45,13 +45,11 @@ const hotList = ref([
 let personalizedList = ref([]);
 onMounted(async () => {
   const res = await useTopPlaylistHighquality({ limit: 6 });
-  console.log(res);
   personalizedList.value = res.playlists;
 });
 
 const buttonClick = async (cat) => {
   const res = await useTopPlaylistHighquality({ limit: 6, cat: cat });
-  console.log(res);
   personalizedList.value = res.playlists;
 };
 </script>
