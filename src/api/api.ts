@@ -334,7 +334,7 @@ export async function useAlbumNew(params?: {
   area: string;
 }) {
   return await http.get<{
-    albums: PlayListDetail[];
+    albums: Album[];
     code: number;
     total: number;
   }>("album/new", params);

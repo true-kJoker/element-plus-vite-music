@@ -1,4 +1,4 @@
-import type {Artist} from "@/models/artist";
+import type {Artist} from "~/models/artist";
 
 export interface Album {
     songs: any[];

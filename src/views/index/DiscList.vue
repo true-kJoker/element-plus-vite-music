@@ -36,6 +36,7 @@ import { ref, onMounted } from "vue";
 import { useAlbumNew } from "~/api/api";
 
 const hotList = ref([
+  { id: 0, name: "全部", type: "ALL" },
   { id: 1, name: "华语", type: "ZH" },
   { id: 2, name: "欧美", type: "EA" },
   { id: 3, name: "韩国", type: "KR" },
