@@ -1,10 +1,10 @@
 <template>
     <div class="flex mt-10 space-x-4">
-        <div class=" w-60%">
+        <div class=" w-70%">
             <Header />
             <Main />
         </div>
-        <div class=" w-40%">
+        <div class=" w-30%">
             <Aside />
         </div>
     </div>
