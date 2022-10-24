@@ -7,7 +7,7 @@
             <Header />
             <Main />
         </el-main>
-        <Player />
+        <!-- <Player /> -->
     </el-container>
 </template>
 

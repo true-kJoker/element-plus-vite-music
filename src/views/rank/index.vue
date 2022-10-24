@@ -1,12 +1,19 @@
 <template>
-    rank
+    <div class="flex mt-10 space-x-4">
+        <div class=" w-60%">
+            <Header />
+            <Main />
+        </div>
+        <div class=" w-40%">
+            <Aside />
+        </div>
+    </div>
 </template>
 
 <script setup>
-import {} from 'vue'
-
+import Aside from './Aside.vue'
+import Header from './Header.vue'
+import Main from './Main.vue'
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
