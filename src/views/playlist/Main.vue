@@ -16,12 +16,12 @@
     <el-pagination
       v-model:currentPage="currentPage"
       v-model:page-size="pageSize"
-      :page-sizes="[20, 50, 100, 200]"
+      :page-sizes="[18, 30, 60, 90]"
       :small="small"
       :disabled="disabled"
       :background="background"
       layout="total,sizes, prev, pager, next"
-      :total="playList.total"
+      :total="playList.total || 100"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -37,13 +37,12 @@ import { useTopPlaylist } from "~/api/api";
 const store = usePlayListStore();
 const { playList } = storeToRefs(store);
 const currentPage = ref(1);
-const pageSize = ref(20);
+const pageSize = ref(18);
 const small = ref(false);
 const background = ref(false);
 const disabled = ref(false);
 const handleSizeChange = async (val) => {
   const res = await useTopPlaylist({ limit: val, offset: currentPage.value });
-  console.log(res);
   store.playList = res;
 };
 const handleCurrentChange = async (val) => {
@@ -51,7 +50,6 @@ const handleCurrentChange = async (val) => {
     limit: pageSize.value,
     offset: (val - 1) * pageSize.value,
   });
-  console.log(res);
   store.playList = res;
 };
 </script>

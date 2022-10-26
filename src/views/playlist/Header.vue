@@ -32,7 +32,7 @@ onMounted(async () => {
     playListCat.value.push(arr);
     arr = [];
   }
-  const playList = await useTopPlaylist({ limit: 30 });
+  const playList = await useTopPlaylist({ limit: 18 });
   store.playList = playList;
 });
 </script>
