@@ -11,13 +11,16 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { usePlayListCatList } from "~/api/api";
+import { usePlayListCatList, useTopPlaylist } from "~/api/api";
+import { usePlayListStore } from "~/store/playList";
+import { storeToRefs } from "pinia";
 
+const store = usePlayListStore();
+const { playList } = storeToRefs(store);
 let topCat = ref({});
 let playListCat = ref([]);
 onMounted(async () => {
   const res = await usePlayListCatList();
-  console.log(res);
   topCat.value = res.categories;
   for (let index = 0; index < 5; index++) {
     let arr = [];
@@ -29,7 +32,8 @@ onMounted(async () => {
     playListCat.value.push(arr);
     arr = [];
   }
-  console.log(playListCat.value);
+  const playList = await useTopPlaylist({ limit: 30 });
+  store.playList = playList;
 });
 </script>
 

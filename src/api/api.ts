@@ -281,6 +281,19 @@ export async function usePlaylistHot() {
     return tags
 }
 
+export async function useTopPlaylist(params?: {
+    limit?: number
+    offset?: number
+    cat: string
+}) {
+    return await http.get<{
+        playlists: PlayListDetail[]
+        total: number
+        more: boolean
+        lasttime: number
+    }>('top/playlist', params)
+}
+
 export async function useTopPlaylistHighquality(params?: {
     limit?: number
     before?: number
