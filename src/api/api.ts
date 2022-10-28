@@ -264,8 +264,25 @@ export async function useSearchSuggest(keywords: string) {
 
 export async function useMvDetail(mvid: number) {}
 
+export async function useMvAll(
+    area: string,
+    type: string,
+    order: string,
+    limit: number,
+    offset: number
+) {
+    const { data } = await http.get<{ data: {} }>('mv/all', {
+        area: area,
+        type: type,
+        order: order,
+        limit: limit,
+        offset: offset
+    })
+    return data
+}
+
 export async function useMvUrl(id: number) {
-    const { data } = await http.get<{ data: MvUrl }>('mv/url', { id: id })
+    const { data } = await http.get<{ count: number; data: Mv[] }>('mv/url', { id: id })
     return data
 }
 
@@ -281,11 +298,7 @@ export async function usePlaylistHot() {
     return tags
 }
 
-export async function useTopPlaylist(params?: {
-    limit?: number
-    offset?: number
-    cat: string
-}) {
+export async function useTopPlaylist(params?: { limit?: number; offset?: number; cat: string }) {
     return await http.get<{
         playlists: PlayListDetail[]
         total: number

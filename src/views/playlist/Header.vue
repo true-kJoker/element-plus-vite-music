@@ -46,4 +46,13 @@ const catClick = async cat => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/*按钮点击*/
+.el-button:focus {
+    background: #126c9e !important;
+    color: white !important;
+    font-weight: bold;
+ 
+    border-color: #01a8f9 !important;
+  }
+</style>
