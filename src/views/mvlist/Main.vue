@@ -1,7 +1,73 @@
 <template>
-  <el-card>main</el-card>
+  <el-card>
+    <div>
+      <el-tag
+        v-for="(item, i) in tagList"
+        :key="i"
+        class="mr-5"
+        type="success"
+        size="large"
+        closable
+        :disable-transitions="false"
+        @close="handleClose(i)"
+        >{{ item }}</el-tag
+      >
+    </div>
+    <div class="inline-block my-5" v-for="(item, i) in mvAllData.data" :key="i">
+      <el-image
+        :src="item.cover"
+        style="width: 300px; height: 167px"
+        class="mr-8 rounded-md"
+      ></el-image>
+      <span class="block break-normal">{{ item.name }}</span>
+    </div>
+    <el-pagination
+      v-model:currentPage="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[18, 30, 60, 90]"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
+      layout="total,sizes, prev, pager, next"
+      :total="count || 100"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </el-card>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useMvListStore } from "~/store/mvlist";
 
-<style lang="less" scoped></style>
+const store = useMvListStore();
+const { area, type, order, currentPage, count, mvAllData } = storeToRefs(store);
+const tagList = ref({ order, area, type });
+const pageSize = ref(18);
+const small = ref(false);
+const background = ref(false);
+const disabled = ref(false);
+const handleSizeChange = (val) => {
+  store.limit = val;
+  store.offset = (currentPage.value - 1) * val;
+  store.mvAll();
+};
+const handleCurrentChange = (val) => {
+  store.limit = pageSize.value;
+  store.offset = (val - 1) * pageSize.value;
+  store.mvAll();
+};
+const handleClose = (i) => {
+  if (i == "area") {
+    store.area = "全部";
+  } else if (i == "type") {
+    store.type = "全部";
+  } else if (i == "order") {
+    store.order = "上升最快";
+  }
+  store.mvAll();
+};
+</script>
+
+<style lang="scss" scoped></style>
