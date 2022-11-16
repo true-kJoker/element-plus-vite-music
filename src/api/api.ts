@@ -160,7 +160,7 @@ export async function usePlayListCatList() {
   return { sub, categories };
 }
 
-export async function userArtistList(pageData: {
+export async function useArtistList(pageData: {
   type: number;
   area: number;
   initial: string;
