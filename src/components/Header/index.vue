@@ -102,7 +102,7 @@ const loginStatus = async (cookie) => {
     if (res.data.profile == null) {
       console.log("未登录");
     } else {
-      console.log("已经登录");
+      console.log("已经登录",res);
       dialogVisible.value = false;
       isLogin.value = true;
       userInfo.avatarUrl = res.data.profile.avatarUrl;
