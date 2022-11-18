@@ -30,8 +30,6 @@ const pinia = createPinia()
 
 const app = createApp(App)
 
-app.config.globalProperties['$http'] = getApi;
-
 app.use(ElementPlus)
 app.use(router)
 app.use(pinia)
