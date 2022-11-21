@@ -44,7 +44,7 @@
         <el-input v-model="formLabelAlign.captcha" />
       </el-form-item>
       <el-form-item>
-        <el-button @click="loginVerify" type="primary">登录</el-button>
+        <el-button @click="loginVerify">登录</el-button>
         <el-button @click="loginSent">获取验证码</el-button>
       </el-form-item>
     </el-form>
@@ -102,7 +102,7 @@ const loginStatus = async (cookie) => {
     if (res.data.profile == null) {
       console.log("未登录");
     } else {
-      console.log("已经登录",res);
+      console.log("已经登录", res);
       dialogVisible.value = false;
       isLogin.value = true;
       userInfo.avatarUrl = res.data.profile.avatarUrl;
