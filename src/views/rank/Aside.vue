@@ -1,62 +1,77 @@
 <template>
-    <el-card v-for="item in topHeader" :class="headerClass" @click="checkoutRank(item.id)">
-        {{ item.name }}
-    </el-card>
-    <el-card v-for="item in rankList" :class="headerClass" @click="checkRank(item)">
-        <el-image
-            :src="item.coverImgUrl"
-            style="width: 45px; height: 45px"
-            class="float-left mr-4 rounded-lg"
-        ></el-image>
-        <span class="block text-xl text-purple-600 truncate">{{ item.name }}</span>
-        <span class="block">{{ item.updateFrequency }}</span>
-    </el-card>
+  <el-card
+    v-for="item in topHeader"
+    class="w-45% inline-block ml-4 rounded-lg cursor-pointer text-center"
+    :class="{ 'active-top': topId === item.id }"
+    @click="checkoutRank(item.id)"
+  >
+    <span :class="{ 'text-white': topId === item.id }">
+      {{ item.name }}
+    </span>
+  </el-card>
+  <el-card
+    v-for="item in rankList"
+    :key="item.id"
+    :class="{ 'active-rank': rankId === item.id }"
+    class="w-45% inline-block ml-4 rounded-lg cursor-pointer text-center"
+    @click="checkRank(item, item.id)"
+  >
+    <el-image
+      :src="item.coverImgUrl"
+      style="width: 45px; height: 45px"
+      class="float-left mr-4 rounded-lg"
+    ></el-image>
+    <span class="block text-xl text-purple-600 truncate">{{ item.name }}</span>
+    <span class="block">{{ item.updateFrequency }}</span>
+  </el-card>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useTopListDetail, usePlayListTrackAll } from '~/api/api'
-import { useRankStore } from '~/store/rank'
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from "pinia";
+import { ref, onMounted } from "vue";
+import { useRankStore } from "~/store/rank";
 
-const store = useRankStore()
-const { rank } = storeToRefs(store)
+const store = useRankStore();
+const { rankList } = storeToRefs(store);
 const topHeader = ref([
-    { id: 'TOP', name: '特色榜' },
-    { id: 'Medio', name: '媒体榜' }
-])
-const headerClass = ref(
-    'w-45% inline-block ml-4 rounded-lg cursor-pointer text-center hover:bg-pink-500'
-)
-const topList = ref([])
-const mediaList = ref([])
-const rankList = ref([])
+  { id: "TOP", name: "特色榜" },
+  { id: "Medio", name: "媒体榜" },
+]);
 onMounted(async () => {
-    const res = await useTopListDetail()
-    res.forEach(item => {
-        if (item.ToplistType) {
-            topList.value.push(item)
-        } else {
-            mediaList.value.push(item)
-        }
-    })
-    rankList.value = topList.value
-    store.rank = rankList.value[0]
-    const songsList = await usePlayListTrackAll(rankList.value[0].id, 10)
-    store.songsList = songsList
-})
-const checkoutRank = async id => {
-    if (id == 'TOP') {
-        rankList.value = topList.value
-    } else {
-        rankList.value = mediaList.value
-    }
-}
-const checkRank = async item => {
-    store.rank = item
-    const res = await usePlayListTrackAll(item.id, 10)
-    store.songsList = res
-}
+  store.getTopListDetail();
+  store.getPlayListTrackAll();
+});
+
+let topId = ref("TOP");
+const checkoutRank = async (id) => {
+  topId.value = id;
+  if (id == "TOP") {
+    store.rankList = store.topList;
+    store.rank = store.rankList[0];
+    rankId.value = store.rank.id;
+    store.getPlayListTrackAll();
+  } else {
+    store.rankList = store.mediaList;
+    store.rank = store.rankList[0];
+    rankId.value = store.rank.id;
+    store.getPlayListTrackAll();
+  }
+};
+
+let rankId = ref(19723756);
+const checkRank = async (item, id) => {
+  rankId.value = id;
+  store.rank = item;
+  store.getPlayListTrackAll();
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+.active-rank {
+  background: linear-gradient(135deg, #ffffff 20%, #ffb08e 100%);
+}
+.active-top {
+  background-color: #ff641e;
+  transition: background-color 0.8s ease-in;
+}
+</style>
