@@ -83,7 +83,7 @@ export async function useLoginCheck(key: string) {
 
 export async function useSongUrl(id: number) {
     const { data } = await http.get<{ data: SongUrl[] }>('/song/url', { id: id })
-    return data.first()
+    return data
 }
 
 export async function useDetail(id: number) {

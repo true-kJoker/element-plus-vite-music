@@ -23,16 +23,18 @@ export const useRankStore = defineStore("rank", {
 
   actions: {
     async getTopListDetail() {
-      const res = await useTopListDetail();
-      res.forEach((item) => {
-        if (item.ToplistType) {
-          this.topList.push(item);
-        } else {
-          this.mediaList.push(item);
-        }
-      });
-      this.rank = this.topList[0];
-      this.rankList = this.topList;
+      if (this.rankList.length == 0) {
+        const res = await useTopListDetail();
+        res.forEach((item) => {
+          if (item.ToplistType) {
+            this.topList.push(item);
+          } else {
+            this.mediaList.push(item);
+          }
+        });
+        this.rank = this.topList[0];
+        this.rankList = this.topList;
+      }
     },
     async getPlayListTrackAll() {
       const res = await usePlayListTrackAll(

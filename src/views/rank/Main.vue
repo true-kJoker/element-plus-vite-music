@@ -13,6 +13,7 @@
             v-if="scope.row.hoverFlag"
             class="iconfont icon-play"
             title="播放"
+            @click="playMusic(scope.row.id)"
           ></i>
           <div v-if="!scope.row.hoverFlag">
             <span>{{ scope.$index + 1 }}</span>
@@ -58,6 +59,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRankStore } from "~/store/rank";
+import { usePlayerStore } from "~/store/player";
 import { storeToRefs } from "pinia";
 import { useFormatDuring } from "~/utils/number";
 
@@ -95,6 +97,13 @@ const handleMouseOut = () => {
     const element = store.songsList[index];
     element["hoverFlag"] = false;
   }
+};
+
+//播放音乐
+const playerStore = usePlayerStore();
+const playMusic = (id) => {
+  playerStore.id = id;
+  playerStore.getSongUrl();
 };
 </script>
 
