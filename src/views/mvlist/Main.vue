@@ -19,7 +19,11 @@
         style="width: 300px; height: 167px"
         class="mr-8 rounded-md"
       ></el-image>
-      <span class="block break-normal">{{ item.name }}</span>
+      <span
+        class="block truncate cursor-pointer w-280px text-lg hover:underline"
+        :title="item.name"
+        >{{ item.name }}</span
+      >
     </div>
     <el-pagination
       v-model:currentPage="currentPage"

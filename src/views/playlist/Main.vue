@@ -11,16 +11,26 @@
       >
     </div>
     <div
-      class="inline-block my-5"
+      class="inline-block mt-5 mr-8 h-280px"
       v-for="(item, i) in playList.playlists"
       :key="i"
     >
       <el-image
         :src="item.coverImgUrl"
         style="width: 220px; height: 220px"
-        class="mr-8 rounded-md"
+        class="rounded-md"
       ></el-image>
-      <span class="block break-normal">{{ item.name }}</span>
+      <span
+        class="block truncate cursor-pointer w-220px text-lg hover:underline"
+        :title="item.name"
+        >{{ item.name }}</span
+      >
+      <div class="mt-1">
+        <span class="text-black text-opacity-50">by</span>
+        <span class="translate-x-2 inline-block cursor-pointer hover:underline">
+          {{ item.creator.nickname }}
+        </span>
+      </div>
     </div>
     <el-pagination
       v-model:currentPage="currentPage"
