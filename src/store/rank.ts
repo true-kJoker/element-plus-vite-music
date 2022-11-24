@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { useTopListDetail, usePlayListTrackAll } from "~/api/api";
+import {
+  useTopListDetail,
+  usePlayListTrackAll,
+  usePlaylistDetailDynamic,
+  usePlayListDetail,
+} from "~/api/api";
 //1.定义容器
 //2.使用容器的state
 //3.修改state
@@ -16,6 +21,8 @@ export const useRankStore = defineStore("rank", {
       topList: [] as any[],
       mediaList: [] as any[],
       rankList: [] as any[],
+      rankCount: {},
+      creator: {},
     };
   },
 
@@ -43,6 +50,14 @@ export const useRankStore = defineStore("rank", {
         (this.currentPage - 1) * this.pageSize
       );
       this.songsList = res;
+    },
+    async getPlaylistDetailDynamic() {
+      const res = await usePlaylistDetailDynamic(this.rank.id);
+      this.rankCount = res;
+    },
+    async getPlayListDetail() {
+      const res = await usePlayListDetail(this.rank.id);
+      this.creator = res.creator;
     },
   },
 });

@@ -21,8 +21,8 @@
       style="width: 45px; height: 45px"
       class="float-left mr-4 rounded-lg"
     ></el-image>
-    <span class="block text-xl text-purple-600 truncate">{{ item.name }}</span>
-    <span class="block">{{ item.updateFrequency }}</span>
+    <span class="block text-xl text-pink-400 truncate">{{ item.name }}</span>
+    <span class="block text-black text-opacity-50">{{ item.updateFrequency }}</span>
   </el-card>
 </template>
 
@@ -40,6 +40,8 @@ const topHeader = ref([
 onMounted(async () => {
   store.getTopListDetail();
   store.getPlayListTrackAll();
+  store.getPlaylistDetailDynamic();
+  store.getPlayListDetail();
 });
 
 let topId = ref("TOP");
@@ -50,11 +52,15 @@ const checkoutRank = async (id) => {
     store.rank = store.rankList[0];
     rankId.value = store.rank.id;
     store.getPlayListTrackAll();
+    store.getPlaylistDetailDynamic();
+    store.getPlayListDetail();
   } else {
     store.rankList = store.mediaList;
     store.rank = store.rankList[0];
     rankId.value = store.rank.id;
     store.getPlayListTrackAll();
+    store.getPlaylistDetailDynamic();
+    store.getPlayListDetail();
   }
 };
 
@@ -63,6 +69,8 @@ const checkRank = async (item, id) => {
   rankId.value = id;
   store.rank = item;
   store.getPlayListTrackAll();
+  store.getPlaylistDetailDynamic();
+  store.getPlayListDetail();
 };
 </script>
 
