@@ -4,18 +4,19 @@ import { useArtistList } from "~/api/api";
 //2.使用容器的state
 //3.修改state
 //4.使用容器的actions
-export const useIndexStore = defineStore("artist", {
+export const useArtistStore = defineStore("artist", {
   state: () => {
     return {
-      pageData: { type: -1, area: -1, initial: "a", page: 0, limit: 0 },
+      pageData: { type: -1, area: -1, initial: "a", page: 1, limit: 30 },
     };
   },
 
   getters: {},
 
   actions: {
-    async artistList() {
-      await useArtistList(this.pageData);
+    async getArtistList() {
+      let res = await useArtistList(this.pageData);
+      console.log(res);
     },
   },
 });
