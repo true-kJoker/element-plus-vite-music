@@ -6,8 +6,8 @@
         <el-button
           :class="{
             'active-rank':
-              store.pageData.type === cat.type ||
-              store.pageData.area === cat.type,
+              (store.pageData.type === cat.type && i === '0') ||
+              (store.pageData.area === cat.type && i === '1'),
           }"
           link
           class="ml-5"
