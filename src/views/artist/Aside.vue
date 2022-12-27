@@ -3,9 +3,17 @@
     <ul v-for="(item, i) in topCat" :key="i" class="flex">
       <span class="text-xl font-semibold">{{ item }}</span>
       <li v-for="cat in catList[i]">
-        <el-button link class="ml-5" @click="catClick(cat, i)">{{
-          cat.value
-        }}</el-button>
+        <el-button
+          :class="{
+            'active-rank':
+              store.pageData.type === cat.type ||
+              store.pageData.area === cat.type,
+          }"
+          link
+          class="ml-5"
+          @click="catClick(cat, i)"
+          >{{ cat.value }}</el-button
+        >
       </li>
     </ul></el-card
   >
@@ -19,7 +27,6 @@ const store = useArtistStore();
 onMounted(() => {
   store.getArtistList();
 });
-
 const topCat = ref({ 0: "类型", 1: "区域" });
 const catList = ref([
   [
@@ -49,4 +56,8 @@ const catClick = (cat, i) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.active-rank {
+  background: linear-gradient(135deg, #ffffff 20%, #ffb08e 100%);
+}
+</style>

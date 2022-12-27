@@ -7,7 +7,9 @@ import { useArtistList } from "~/api/api";
 export const useArtistStore = defineStore("artist", {
   state: () => {
     return {
-      pageData: { type: -1, area: -1, initial: "-1", page: 1, limit: 30 },
+      currentPage: 1,
+      count: 0,
+      pageData: { type: -1, area: -1, initial: "-1", page: 1, limit: 18 },
       artists: [] as any,
     };
   },
