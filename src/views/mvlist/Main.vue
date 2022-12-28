@@ -20,7 +20,7 @@
         class="mr-8 rounded-md"
       ></el-image>
       <span
-        class="block truncate cursor-pointer w-280px text-lg hover:underline"
+        class="block text-lg truncate cursor-pointer w-280px hover:underline"
         :title="item.name"
         >{{ item.name }}</span
       >
@@ -55,12 +55,12 @@ const disabled = ref(false);
 const handleSizeChange = (val) => {
   store.limit = val;
   store.offset = (currentPage.value - 1) * val;
-  store.mvAll();
+  store.getMvAll();
 };
 const handleCurrentChange = (val) => {
   store.limit = pageSize.value;
   store.offset = (val - 1) * pageSize.value;
-  store.mvAll();
+  store.getMvAll();
 };
 const handleClose = (i) => {
   if (i == "area") {
@@ -70,7 +70,7 @@ const handleClose = (i) => {
   } else if (i == "order") {
     store.order = "上升最快";
   }
-  store.mvAll();
+  store.getMvAll();
 };
 </script>
 

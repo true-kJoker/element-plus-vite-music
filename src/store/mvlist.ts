@@ -23,7 +23,7 @@ export const useMvListStore = defineStore("mvList", {
   getters: {},
 
   actions: {
-    async mvAll() {
+    async getMvAll() {
       this.mvAllData = await useMvAll(
         this.area,
         this.type,

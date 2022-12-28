@@ -27,21 +27,21 @@ const catClick = (cat, i) => {
     store.order = cat;
     store.offset = 0;
     store.currentPage = 1;
-    store.mvAll();
+    store.getMvAll();
   } else if (i == 1) {
     store.area = cat;
     store.offset = 0;
     store.currentPage = 1;
-    store.mvAll();
+    store.getMvAll();
   } else if (i == 2) {
     store.type = cat;
     store.offset = 0;
     store.currentPage = 1;
-    store.mvAll();
+    store.getMvAll();
   }
 };
 onMounted(() => {
-  store.mvAll();
+  store.getMvAll();
 });
 </script>
 
