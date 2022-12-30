@@ -1,18 +1,5 @@
 <template>
   <el-card>
-    <div>
-      <el-tag
-        v-for="(item, i) in tagList"
-        :key="i"
-        class="mr-5"
-        type="success"
-        size="large"
-        closable
-        :disable-transitions="false"
-        @close="handleClose(i)"
-        >{{ item }}</el-tag
-      >
-    </div>
     <div class="inline-block my-5" v-for="(item, i) in mvAllData.data" :key="i">
       <el-image
         :src="item.cover"
@@ -47,7 +34,6 @@ import { useMvListStore } from "~/store/mvlist";
 
 const store = useMvListStore();
 const { area, type, order, currentPage, count, mvAllData } = storeToRefs(store);
-const tagList = ref({ order, area, type });
 const pageSize = ref(18);
 const small = ref(false);
 const background = ref(false);

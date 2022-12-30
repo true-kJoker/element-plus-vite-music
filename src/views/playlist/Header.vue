@@ -3,7 +3,16 @@
         <ul v-for="(item, i) in topCat" :key="i" class="flex">
             <span class="text-xl font-semibold">{{ item }}</span>
             <li v-for="cat in playListCat[i]">
-                <el-button link class="ml-5" @click="catClick(cat.name)">{{ cat.name }}</el-button>
+                <el-button
+                    link
+                    :class="{
+                        'active-rank': cat.name === store.cat
+                    }"
+                    class="ml-5"
+                    @click="catClick(cat.name)"
+                >
+                    {{ cat.name }}
+                </el-button>
             </li>
         </ul>
     </el-card>
@@ -47,12 +56,7 @@ const catClick = async cat => {
 </script>
 
 <style lang="scss" scoped>
-/*按钮点击*/
-.el-button:focus {
-    background: #126c9e !important;
-    color: white !important;
-    font-weight: bold;
- 
-    border-color: #01a8f9 !important;
-  }
+.active-rank {
+    background: linear-gradient(135deg, #ffffff 20%, #ffb08e 100%);
+}
 </style>
