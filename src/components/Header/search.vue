@@ -42,7 +42,7 @@ const remoteMethod = (query) => {
     store.getSearchSuggest();
     loading.value = false;
   } else {
-    store.searchHotDetail = [];
+    store.getSearchHotDetail();
   }
 };
 </script>
