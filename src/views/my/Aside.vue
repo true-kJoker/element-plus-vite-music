@@ -1,8 +1,9 @@
 <template>
   <el-card
-    v-for="item in userPlaylist"
+    v-for="(item, i) in userPlaylist"
+    :class="{ 'active-rank': item.id === store.id }"
     class="mb-4 rounded-lg cursor-pointer text-center"
-    @click="checkoutRank(item.id)"
+    @click="checkoutRank(item.id, i)"
   >
     <el-image
       :src="item.coverImgUrl"
@@ -25,12 +26,18 @@ onMounted(() => {
   store.getMvsublist();
   store.getUserSubcount();
   store.getUserPlaylist();
-  store.getPlayListTrackAll()
+  store.getPlayListTrackAll();
 });
-const checkoutRank = (id) => {
+const checkoutRank = (id, i) => {
+  console.log(id, i, store.id);
   store.id = id;
-  store.getPlayListTrackAll()
+  store.playList = store.userPlaylist[i];
+  store.getPlayListTrackAll();
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.active-rank {
+  background: linear-gradient(135deg, #ffffff 20%, #ffb08e 100%);
+}
+</style>

@@ -5,6 +5,7 @@ import {
   useUserSubcount,
   useUserPlaylist,
   usePlayListTrackAll,
+  usePlaylistDetailDynamic,
 } from "~/api/api";
 //1.定义容器
 //2.使用容器的state
@@ -21,6 +22,7 @@ export const useMyStore = defineStore("my", {
       currentPage: 1,
       pageSize: 10,
       songsList: [] as any[],
+      playList: [] as any[],
     };
   },
 
@@ -38,6 +40,7 @@ export const useMyStore = defineStore("my", {
     },
     async getUserPlaylist() {
       this.userPlaylist = await useUserPlaylist(1503855185);
+      this.playList = this.userPlaylist[0];
     },
     async getPlayListTrackAll() {
       this.songsList = await usePlayListTrackAll(

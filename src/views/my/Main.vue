@@ -49,7 +49,7 @@
       :disabled="disabled"
       :background="background"
       layout="total,sizes, prev, pager, next"
-      :total="songsList.length || 100"
+      :total="playList.trackCount || 100"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -64,7 +64,7 @@ import { storeToRefs } from "pinia";
 import { useFormatDuring } from "~/utils/number";
 
 const store = useMyStore();
-const { currentPage, pageSize, songsList } = storeToRefs(store);
+const { currentPage, pageSize, songsList, playList } = storeToRefs(store);
 
 const small = ref(false);
 const background = ref(false);
