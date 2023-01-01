@@ -406,10 +406,13 @@ export async function useMvSublist() {
   }>("mv/sublist");
 }
 
-export async function useUserPlaylist() {
-  return await http.get<{
+export async function useUserPlaylist(uid: number) {
+  const { playlist } = await http.get<{
     code: number;
-  }>("user/playlist?uid=1503855185");
+    playlist: [];
+  }>("user/playlist", { uid: uid });
+
+  return playlist;
 }
 
 export async function usePlaylistDetailDynamic(id: number) {
