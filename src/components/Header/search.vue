@@ -10,12 +10,18 @@
     :remote-method="remoteMethod"
     :loading="loading"
   >
-    <el-option
-      v-for="item in store.searchHotDetail"
-      :key="item.score || item.id"
-      :label="item.searchWord || item.name"
-      :value="item.score || item.id"
-    />
+    <el-option-group
+      v-for="group in store.resultList"
+      :key="group.label"
+      :label="group.label"
+    >
+      <el-option
+        v-for="item in group.options"
+        :key="item.id || item.score"
+        :label="item.name || item.searchWord"
+        :value="item.id || item.score"
+      />
+    </el-option-group>
   </el-select>
 </template>
 
